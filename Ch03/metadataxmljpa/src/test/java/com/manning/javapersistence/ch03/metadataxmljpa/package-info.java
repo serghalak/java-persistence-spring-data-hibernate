@@ -22,14 +22,6 @@
     @org.hibernate.annotations.NamedQuery(
         name = "findItemsOrderByName",
         query = "select i from Item i order by i.name asc"
-    )
-    ,
-    @org.hibernate.annotations.NamedQuery(
-        name = "findItemBuyNowPriceGreaterThan",
-        query = "select i from Item i where i.name > :name",
-        timeout = 60,
-        comment = "Custom SQL comment"
-    )
-})
+    )})
 
-package com.manning.javapersistence.ch03.ex05;
+package com.manning.javapersistence.ch03.metadataxmljpa;
