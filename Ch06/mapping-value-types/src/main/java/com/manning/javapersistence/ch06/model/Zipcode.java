@@ -20,46 +20,30 @@
  */
 package com.manning.javapersistence.ch06.model;
 
-import com.manning.javapersistence.ch06.converter.ZipcodeConverter;
+import java.util.Objects;
 
-import javax.persistence.*;
+public abstract class Zipcode {
 
-@Entity
-@Table(name = "USERS")
-public class User {
+    private String value;
 
-    @Id
-    @GeneratedValue(generator = "ID_GENERATOR")
-    private Long id;
-
-    private String username;
-
-    // The Address is @Embeddable, no annotation needed here...
-    // The Address is @Embeddable, no annotation needed here...
-    @Convert(
-            converter = ZipcodeConverter.class,
-            attributeName = "city.zipcode" // Or "city.zipcode" for nested embeddables
-    )
-    private Address homeAddress;
-
-    public Long getId() {
-        return id;
+    public Zipcode(String value) {
+        this.value = value;
     }
 
-    public String getUsername() {
-        return username;
+    public String getValue() {
+        return value;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Zipcode zipcode = (Zipcode) o;
+        return Objects.equals(value, zipcode.value);
     }
 
-    public Address getHomeAddress() {
-        return homeAddress;
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
-
-    public void setHomeAddress(Address homeAddress) {
-        this.homeAddress = homeAddress;
-    }
-
 }

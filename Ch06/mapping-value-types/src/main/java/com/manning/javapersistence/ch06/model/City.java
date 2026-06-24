@@ -20,57 +20,46 @@
  */
 package com.manning.javapersistence.ch06.model;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-/**
- * Instead of <code>@Entity</code>, this component POJO is marked with <code>@Embeddable</code>. It
- * has no identifier property.
- */
 @Embeddable
-public class Address {
-
-    @NotNull // Ignored for DDL generation!
-    @Column(nullable = false) // Used for DDL generation!
-    private String street;
+public class City {
 
     @NotNull
-    @AttributeOverride(
-            name = "name",
-            column = @Column(name = "CITY", nullable = false)
-    )
-    private City city;
+    @Column(nullable = false, length = 5) // Override VARCHAR(255)
+    private Zipcode zipcode;
 
-    /**
-     * Hibernate will call this no-argument constructor to create an instance, and then
-     * populate the fields directly.
-     */
-    public Address() {
+    @NotNull
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(nullable = false)
+    private String country;
+
+    public Zipcode getZipcode() {
+        return zipcode;
     }
 
-    /**
-     * You can have additional (public) constructors for convenience.
-     */
-    public Address(String street, City city) {
-        this.street = street;
-        this.city = city;
+    public void setZipcode(Zipcode zipcode) {
+        this.zipcode = zipcode;
     }
 
-    public String getStreet() {
-        return street;
+    public String getName() {
+        return name;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public City getCity() {
-        return city;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

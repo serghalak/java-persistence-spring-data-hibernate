@@ -18,16 +18,14 @@
  *
  * ========================================================================
  */
-//package com.manning.javapersistence.ch06;
+//package com.manning.javapersistence.ch06.testFromTypes2;
 //
 //import com.manning.javapersistence.ch06.model.*;
-//import org.hibernate.Session;
-//import org.hibernate.SessionFactory;
-//import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-//import org.hibernate.cfg.Configuration;
-//import org.hibernate.service.ServiceRegistry;
 //import org.junit.jupiter.api.Test;
 //
+//import javax.persistence.EntityManager;
+//import javax.persistence.EntityManagerFactory;
+//import javax.persistence.Persistence;
 //import java.math.BigDecimal;
 //import java.time.LocalDate;
 //import java.time.LocalDateTime;
@@ -36,24 +34,18 @@
 //import java.util.List;
 //
 //import static org.junit.jupiter.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
 //
-//public class MappingValuesHibernateTest {
-//
-//    private static SessionFactory createSessionFactory() {
-//        Configuration configuration = new Configuration();
-//        configuration.configure().addAnnotatedClass(User.class).addAnnotatedClass(Item.class).addAnnotatedClass(Bid.class);
-//        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().
-//                applySettings(configuration.getProperties()).build();
-//        return configuration.buildSessionFactory(serviceRegistry);
-//    }
+//public class MappingValuesJPATest {
 //
 //    @Test
 //    public void storeLoadEntities() {
 //
-//        try (SessionFactory sessionFactory = createSessionFactory();
-//             Session session = sessionFactory.openSession()) {
-//            session.beginTransaction();
+//        EntityManagerFactory emf =
+//                Persistence.createEntityManagerFactory("ch06.mapping_value_types");
+//        EntityManager em = emf.createEntityManager();
+//
+//        try {
+//            em.getTransaction().begin();
 //
 //            City city = new City();
 //            city.setName("Boston");
@@ -69,27 +61,25 @@
 //            item.setMetricWeight(2);
 //            item.setBuyNowPrice(new MonetaryAmount(BigDecimal.valueOf(1.1), Currency.getInstance("USD")));
 //            item.setDescription("descriptiondescription");
-//            session.persist(user);
-//            session.persist(item);
 //
-//            session.getTransaction().commit();
+//            em.persist(user);
+//            em.persist(item);
 //
-//            session.refresh(user);
-//            session.refresh(item);
+//            em.getTransaction().commit();
+//            em.refresh(user);
+//            em.refresh(item);
 //
-//            session.beginTransaction();
+//            em.getTransaction().begin();
 //
 //            List<User> users =
-//                    session.createQuery("select u from User u", User.class)
+//                    em.createQuery("select u from User u", User.class)
 //                            .getResultList();
 //
 //            List<Item> items =
-//                    session.createQuery("select i from Item i where i.metricWeight = :w", Item.class)
+//                    em.createQuery("select i from Item i where i.metricWeight = :w", Item.class)
 //                            .setParameter("w", 2.0)
 //                            .getResultList();
-//
-//
-//            session.getTransaction().commit();
+//            em.getTransaction().commit();
 //
 //            assertAll(
 //                    () -> assertEquals(1, users.size()),
@@ -109,7 +99,9 @@
 //                    () -> assertTrue(ChronoUnit.SECONDS.between(LocalDateTime.now(), items.get(0).getLastModified()) < 1),
 //                    () -> assertEquals(new BigDecimal("1.00"), items.get(0).getInitialPrice())
 //            );
-//
+//        } finally {
+//            em.close();
+//            emf.close();
 //        }
 //    }
 //

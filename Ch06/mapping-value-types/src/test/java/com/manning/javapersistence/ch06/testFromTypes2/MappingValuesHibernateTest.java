@@ -18,7 +18,7 @@
  *
  * ========================================================================
  */
-//package com.manning.javapersistence.ch06;
+//package com.manning.javapersistence.ch06.testFromTypes2;
 //
 //import com.manning.javapersistence.ch06.model.*;
 //import org.hibernate.Session;
@@ -36,7 +36,6 @@
 //import java.util.List;
 //
 //import static org.junit.jupiter.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
 //
 //public class MappingValuesHibernateTest {
 //

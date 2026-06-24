@@ -20,6 +20,7 @@
  */
 package com.manning.javapersistence.ch06.model;
 
+import com.manning.javapersistence.ch06.converter.MonetaryAmountConverter;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
@@ -51,6 +52,11 @@ public class Item {
     @Access(AccessType.PROPERTY)
     @Column(name = "ITEM_NAME") // Mappings are still expected here!
     private String name;
+
+    @NotNull
+    @Convert(converter = MonetaryAmountConverter.class)
+    @Column(name = "PRICE", length = 63)
+    private MonetaryAmount buyNowPrice;
 
     @OneToMany(mappedBy = "item",
             cascade = CascadeType.PERSIST,
@@ -105,6 +111,14 @@ public class Item {
     public void setName(String name) {
         this.name =
                 !name.startsWith("AUCTION: ") ? "AUCTION: " + name : name;
+    }
+
+    public MonetaryAmount getBuyNowPrice() {
+        return buyNowPrice;
+    }
+
+    public void setBuyNowPrice(MonetaryAmount buyNowPrice) {
+        this.buyNowPrice = buyNowPrice;
     }
 
     public Set<Bid> getBids() {
