@@ -21,9 +21,11 @@
 package com.manning.javapersistence.ch07.model;
 
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@PrimaryKeyJoinColumn(name = "BA_ID")
 public class BankAccount extends BillingDetails {
     @NotNull
     private String account;
