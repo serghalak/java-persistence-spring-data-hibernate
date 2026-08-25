@@ -35,4 +35,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(value = "SELECT FILENAME FROM IMAGE WHERE ITEM_ID = ?1",
             nativeQuery = true)
     Set<String> findImagesNative(Long id);
+
+    @Query("delete from Item i inner join fetch i.images where i.images.filename = :imageName AND i.images.itemId = :itemId")
+    void removeImageByFilename(String imageName, Long itemId);
 }

@@ -22,6 +22,8 @@ package com.manning.javapersistence.ch08.listofstrings;
 
 import com.manning.javapersistence.ch08.configuration.listofstrings.SpringDataConfiguration;
 import com.manning.javapersistence.ch08.repositories.listofstrings.ItemRepository;
+import com.manning.javapersistence.ch08.repositories.listofstrings.ItemService;
+import com.manning.javapersistence.ch08.repositories.listofstrings.impl.ItemServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +37,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {SpringDataConfiguration.class})
+@ContextConfiguration(classes = {SpringDataConfiguration.class,
+        ItemServiceImpl.class })
 public class MappingCollectionsSpringDataJPATest {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private ItemService itemService;
+
+
+
 
     @Test
     void storeLoadEntities() {
@@ -63,5 +72,7 @@ public class MappingCollectionsSpringDataJPATest {
                 () -> assertEquals(1, items2.size()),
                 () -> assertEquals(4, images.size())
         );
+
+        itemService.removeImageFromItem("landscape.jpg", 1L);
     }
 }

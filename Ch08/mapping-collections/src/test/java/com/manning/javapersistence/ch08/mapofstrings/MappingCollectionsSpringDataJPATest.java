@@ -21,7 +21,10 @@
 package com.manning.javapersistence.ch08.mapofstrings;
 
 import com.manning.javapersistence.ch08.configuration.mapofstrings.SpringDataConfiguration;
+
+import com.manning.javapersistence.ch08.repositories.listofstrings.ItemService;
 import com.manning.javapersistence.ch08.repositories.mapofstrings.ItemRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

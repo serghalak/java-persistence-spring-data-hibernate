@@ -65,4 +65,29 @@ public class MappingCollectionsSpringDataJPATest {
         );
 
     }
+
+
+    private void createData() {
+        Item item = new Item("Foo");
+        item.addImage("background.jpg");
+        item.addImage("foreground.jpg");
+        item.addImage("landscape.jpg");
+        item.addImage("portrait.jpg");
+
+        itemRepository.save(item);
+    }
+
+    @Test
+    void getItemById() {
+        createData();
+        Item item = itemRepository.findItemWithImages(1L);
+        assertEquals("Foo", item.getName());
+    }
+
+    @Test
+    void getImagesNative() {
+        createData();
+        Set<String> images = itemRepository.findImagesNative(1L);
+        assertEquals(4, images.size());
+    }
 }

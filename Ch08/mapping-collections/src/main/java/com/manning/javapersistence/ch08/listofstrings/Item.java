@@ -64,4 +64,7 @@ public class Item {
         images.add(image);
     }
 
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
 }
