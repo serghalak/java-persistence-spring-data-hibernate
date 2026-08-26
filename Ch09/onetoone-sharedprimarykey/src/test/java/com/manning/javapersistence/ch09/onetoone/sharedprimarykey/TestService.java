@@ -40,16 +40,29 @@ public class TestService {
     @Transactional
     public void storeLoadEntities() {
 
-        Address address =
-                new Address("Flowers Street", "01246", "Boston");
-        addressRepository.save(address);
+        // 1. Створюємо чисту адресу без жодних ID
+        Address address = new Address("Flowers Street", "01246", "Boston");
 
-        User john = new User(address.getId(), // Assign same identifier value
-                "John Smith"
-        );
+// 2. Створюємо користувача (ID ще немає, воно згенерується при збереженні)
+        User john = new User();
+        john.setUsername("John Smith");
+
+// 3. Зв'язуємо їх через наш хелпер-метод
         john.setShippingAddress(address);
+
+// 4. Зберігаємо ТІЛЬКИ користувача
         userRepository.save(john);
 
+//        Address address =
+//                new Address("Flowers Street", "01246", "Boston");
+//        addressRepository.save(address);
+//
+//        User john = new User(address.getId(), // Assign same identifier value
+//                "John Smith"
+//        );
+//        john.setShippingAddress(address);
+//        userRepository.save(john);
+//
         User user = userRepository.findById(john.getId()).get();
         Address address2 = addressRepository.findById(address.getId()).get();
 

@@ -20,6 +20,8 @@
  */
 package com.manning.javapersistence.ch09.onetoone.sharedprimarykey;
 
+import com.manning.javapersistence.ch09.Constants;
+
 import javax.persistence.*;
 
 @Entity
@@ -27,17 +29,40 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @GeneratedValue(generator = Constants.ID_GENERATOR) // Тільки User генерує ID
     private Long id;
 
     private String username;
 
     @OneToOne(
-            fetch = FetchType.LAZY,  // Defaults to EAGER
-            optional = false, // Required for lazy loading with proxies!
-            cascade = CascadeType.ALL // Any change here must be cascaded to Address
+            fetch = FetchType.LAZY,
+            optional = false,
+            cascade = CascadeType.ALL, // Збереже адресу автоматично
+            mappedBy = "user" // ВКАЗУЄМО НАЗВУ ПОЛЯ З КЛАСУ Address
     )
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "id") // Склеюємо таблиці по колонці ID
     private Address shippingAddress;
+
+    // Хелпер-метод для встановлення двостороннього зв'язку (КРИТИЧНО ВАЖЛИВО)
+    public void setShippingAddress(Address address) {
+        this.shippingAddress = address;
+        if (address != null) {
+            address.setUser(this); // Обов'язково зв'язуємо зворотний бік
+        }
+    }
+
+//    @Id
+//    private Long id;
+//
+//    private String username;
+//
+//    @OneToOne(
+//            fetch = FetchType.LAZY,  // Defaults to EAGER
+//            optional = false, // Required for lazy loading with proxies!
+//            cascade = CascadeType.ALL // Any change here must be cascaded to Address
+//    )
+//    @PrimaryKeyJoinColumn
+//    private Address shippingAddress;
 
     public User() {
     }
@@ -63,7 +88,7 @@ public class User {
         return shippingAddress;
     }
 
-    public void setShippingAddress(Address shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
+//    public void setShippingAddress(Address shippingAddress) {
+//        this.shippingAddress = shippingAddress;
+//    }
 }

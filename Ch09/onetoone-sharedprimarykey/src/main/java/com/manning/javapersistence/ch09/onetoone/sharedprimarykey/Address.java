@@ -22,26 +22,39 @@ package com.manning.javapersistence.ch09.onetoone.sharedprimarykey;
 
 import com.manning.javapersistence.ch09.Constants;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Address {
 
     @Id
-    @GeneratedValue(generator = Constants.ID_GENERATOR)
-    private Long id;
+    private Long id; // ЖОДНИХ генераторів тут! ID прилетить від User
 
     @NotNull
     private String street;
-
     @NotNull
     private String zipcode;
-
     @NotNull
     private String city;
+
+    @OneToOne
+    @MapsId // Магія JPA: каже взяти ID з поля 'user' і записати в поле 'id' цього класу
+    @JoinColumn(name = "id") // Назва колонки PK/FK в таблиці ADDRESSES
+    private User user;
+
+//    @Id
+//    @GeneratedValue(generator = Constants.ID_GENERATOR)
+//    private Long id;
+//
+//    @NotNull
+//    private String street;
+//
+//    @NotNull
+//    private String zipcode;
+//
+//    @NotNull
+//    private String city;
 
     public Address() {
     }
@@ -78,5 +91,17 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
