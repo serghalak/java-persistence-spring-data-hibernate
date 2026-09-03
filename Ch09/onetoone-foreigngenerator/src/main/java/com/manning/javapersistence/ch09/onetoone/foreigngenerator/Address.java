@@ -27,15 +27,15 @@ import javax.validation.constraints.NotNull;
 public class Address {
 
     @Id
-    @GeneratedValue(generator = "addressKeyGenerator")
-    @org.hibernate.annotations.GenericGenerator(
-            name = "addressKeyGenerator",
-            strategy = "foreign",
-            parameters =
-            @org.hibernate.annotations.Parameter(
-                    name = "property", value = "user"
-            )
-    )
+//    @GeneratedValue(generator = "addressKeyGenerator")
+//    @org.hibernate.annotations.GenericGenerator(
+//            name = "addressKeyGenerator",
+//            strategy = "foreign",
+//            parameters =
+//            @org.hibernate.annotations.Parameter(
+//                    name = "property", value = "user"
+//            )
+//    )
     private Long id;
 
     @NotNull
@@ -48,7 +48,9 @@ public class Address {
     private String city;
 
     @OneToOne(optional = false) // Create FK constraint on PK column
-    @PrimaryKeyJoinColumn
+    //@PrimaryKeyJoinColumn
+    @MapsId // Магія JPA: каже взяти ID з об'єкта 'user' і записати в поле 'id'
+    @JoinColumn(name = "id", referencedColumnName = "id") // Склеюємо таблиці по колонці ID
     private User user;
 
     public Address() {
