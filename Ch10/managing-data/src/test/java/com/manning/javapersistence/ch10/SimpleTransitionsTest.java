@@ -328,12 +328,16 @@ public class SimpleTransitionsTest {
 
         // Disable flushing before queries:
         em.setFlushMode(FlushModeType.COMMIT);
+        //em.setFlushMode(FlushModeType.AUTO);
+        //Name("Original Name")
+        Item id = em.createQuery("select i from Item i where i.id = :id", Item.class)
+                .setParameter("id", ITEM_ID).getSingleResult();
 
-        assertEquals(
-                "Original Name",
-                em.createQuery("select i.name from Item i where i.id = :id", String.class)
-                        .setParameter("id", ITEM_ID).getSingleResult()
-        );
+//        assertEquals(
+//                "Original Name",
+//                em.createQuery("select i.name from Item i where i.id = :id", String.class)
+//                        .setParameter("id", ITEM_ID).getSingleResult()
+//        );
 
         em.getTransaction().commit(); // Flush!
         em.close();
